@@ -1,5 +1,8 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import dotenv from 'dotenv';
+import conectarAoBanco from "../config/dbconfig.js";
+
+const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_CONNECTION_STRING);
