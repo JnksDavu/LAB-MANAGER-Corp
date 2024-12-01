@@ -24,9 +24,10 @@
 // });
 
 import express from "express";
+import routes from "./src/routes/exemploRoutes.js";
 
 const app = express();
-//routes(app);
+routes(app);
 
 app.listen(3000, () => {
     console.log("Server está escutando na porta 3000");
