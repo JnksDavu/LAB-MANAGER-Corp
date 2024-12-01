@@ -13,7 +13,7 @@
     "app": "file:",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
-    "next": "14.2.9",
+    "next": "^14.2.18",
     "react": "^18",
     "react-dom": "^18"
   },
