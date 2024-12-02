@@ -7,14 +7,17 @@ import {
   deleteSala,
   getSoftwaresInstalados
 } from '../Controller/salaController.js';
-import { authenticateToken } from '../Controller/userController.js';  
+import { authenticateToken } from '../Controller/userController.js';
 
-const router = express.Router();
-router.post('/create', authenticateToken, createSala);
-router.get('/', authenticateToken, getAllSalas);
-router.get('/:id', authenticateToken, getSalaById);
-router.put('/:id', authenticateToken, updateSala);
-router.delete('/:id', authenticateToken, deleteSala);
-router.get('/:id/softwares', authenticateToken, getSoftwaresInstalados);
+const routes = (app) => {
+  app.use(express.json());
 
-export default router;
+  app.post('/salas/create', authenticateToken, createSala);
+  app.get('/salas', authenticateToken, getAllSalas);
+  app.get('/salas/:id', authenticateToken, getSalaById);
+  app.put('/salas/:id', authenticateToken, updateSala);
+  app.delete('/salas/:id', authenticateToken, deleteSala);
+  app.get('/salas/:id/softwares', authenticateToken, getSoftwaresInstalados);
+};
+
+export default routes;

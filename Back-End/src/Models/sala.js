@@ -1,49 +1,42 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import dotenv from 'dotenv';
-import conectarAoBanco from "../config/dbconfig.js";
+import run from "../config/dbconfig.js"; 
 
-dotenv.config();
-const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+const conexao = await run(process.env.STRING_CONEXAO); 
 
-const sequelize = new Sequelize(process.env.DB_CONNECTION_STRING);
-
-const Sala = sequelize.define('Sala', {
+export const Sala = conexao.define('Sala', {
   id: {
     type: DataTypes.INTEGER,
-    autoIncrement: true, // Gera automaticamente IDs incrementais
-    primaryKey: true,    // Define como chave primária
+    autoIncrement: true,  
+    primaryKey: true,     
   },
-  nomeSala: {
+  nome_da_sala: {          
     type: DataTypes.STRING,
     allowNull: false,
   },
-  numeroComputadores: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+  lista_softwares: {       
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
   },
-  localizacao: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  possuiAcessibilidade: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
-  statusSala: {
+  status: {                
     type: DataTypes.ENUM('Disponível', 'Ocupado', 'Bloqueado', 'Manutenção'),
     allowNull: false,
     defaultValue: 'Disponível',
   },
-  softwaresInstalados: {
-    type: DataTypes.ARRAY(DataTypes.STRING),  // Array de strings para lista de softwares
-    allowNull: true,  // Pode ser nulo se nenhuma lista for fornecida
+  tem_acessibilidade: {    
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  numero_de_pcs: {        
+    type: DataTypes.INTEGER,
+    allowNull: false,
   }
 }, {
-  tableName: 'salas',  // Nome da tabela no banco de dados
-  timestamps: true, 
-  createdAt: 'createdat',  
-  updatedAt: 'updatedat',  
+  tableName: 'sala',        
+  timestamps: true,
+  createdAt: 'createdat',
+  updatedAt: 'updatedat',
 });
 
-export default Sala;
+export async function getAllSalas() {
+  return Sala.findAll();    
+}

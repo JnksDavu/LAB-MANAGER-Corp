@@ -24,7 +24,7 @@
   },
   "contributors": [],
   "scripts": {
-    "dev": "node --watch --env-file=.env app.js",
+    "dev": "node app.js",
     "test": ""
   },
   "dependencies": {

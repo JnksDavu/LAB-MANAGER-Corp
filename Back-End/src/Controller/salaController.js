@@ -1,36 +1,31 @@
-import Sala from '../Models/sala.js'; 
+// controllers/salaController.js
 
-export const createSala = async (req, res) => {
+import { createSala, findAllSalas, findSalaById, updateSala, deleteSala } from '../Models/sala.js';
+
+// Criar uma nova sala
+export async function criarSala(req, res) {
   try {
-    const { nomeSala, numeroComputadores, localizacao, possuiAcessibilidade, statusSala, softwaresInstalados } = req.body;
-
-    const novaSala = await Sala.create({ 
-      nomeSala, 
-      numeroComputadores, 
-      localizacao, 
-      possuiAcessibilidade, 
-      statusSala, 
-      softwaresInstalados 
-    });
-
+    const novaSala = await createSala(req.body);
     res.status(201).json(novaSala);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-export const getAllSalas = async (req, res) => {
+// Listar todas as salas
+export async function listarSalas(req, res) {
   try {
-    const salas = await Sala.findAll();
+    const salas = await findAllSalas();
     res.status(200).json(salas);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-export const getSalaById = async (req, res) => {
+// Obter sala por ID
+export async function obterSalaPorId(req, res) {
   try {
-    const sala = await Sala.findByPk(req.params.id);
+    const sala = await findSalaById(req.params.id);
     if (sala) {
       res.status(200).json(sala);
     } else {
@@ -39,54 +34,32 @@ export const getSalaById = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-export const updateSala = async (req, res) => {
+// Atualizar uma sala
+export async function atualizarSala(req, res) {
   try {
-    const { nomeSala, numeroComputadores, localizacao, possuiAcessibilidade, statusSala, softwaresInstalados } = req.body;
-    const sala = await Sala.findByPk(req.params.id);
-
-    if (sala) {
-      sala.nomeSala = nomeSala || sala.nomeSala;
-      sala.numeroComputadores = numeroComputadores || sala.numeroComputadores;
-      sala.localizacao = localizacao || sala.localizacao;
-      sala.possuiAcessibilidade = (possuiAcessibilidade !== undefined) ? possuiAcessibilidade : sala.possuiAcessibilidade;
-      sala.statusSala = statusSala || sala.statusSala;
-      sala.softwaresInstalados = softwaresInstalados || sala.softwaresInstalados;
-
-      await sala.save();
-      res.status(200).json(sala);
+    const salaAtualizada = await updateSala(req.params.id, req.body);
+    if (salaAtualizada) {
+      res.status(200).json(salaAtualizada);
     } else {
       res.status(404).json({ message: 'Sala não encontrada' });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-export const deleteSala = async (req, res) => {
+// Deletar uma sala
+export async function deletarSala(req, res) {
   try {
-    const sala = await Sala.findByPk(req.params.id);
-    if (sala) {
-      await sala.destroy();
-      res.status(200).json({ message: `Sala ${req.params.id} excluída com sucesso!` });
+    const salaDeletada = await deleteSala(req.params.id);
+    if (salaDeletada) {
+      res.status(200).json({ message: 'Sala excluída com sucesso!' });
     } else {
       res.status(404).json({ message: 'Sala não encontrada' });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
-
-export const getSoftwaresInstalados = async (req, res) => {
-  try {
-    const sala = await Sala.findByPk(req.params.id);
-    if (sala) {
-      res.status(200).json({ softwaresInstalados: sala.softwaresInstalados });
-    } else {
-      res.status(404).json({ message: 'Sala não encontrada' });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+}
