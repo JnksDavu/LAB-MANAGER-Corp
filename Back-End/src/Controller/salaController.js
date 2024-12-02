@@ -1,65 +1,86 @@
-// controllers/salaController.js
+import { getAllPosts, createNewPost, atualizarPost, deletarPost } from "../models/sala.js";
 
-import { createSala, findAllSalas, findSalaById, updateSala, deleteSala } from '../Models/sala.js';
+export async function listarPosts(req, res) {
 
-// Criar uma nova sala
-export async function criarSala(req, res) {
-  try {
-    const novaSala = await createSala(req.body);
-    res.status(201).json(novaSala);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+    const get = await getAllPosts();
+
+  res.status(200).json(get);
+
 }
+ 
+export async function criarPost(req, res) {
 
-// Listar todas as salas
-export async function listarSalas(req, res) {
+  const newPost = req.body;
+
   try {
-    const salas = await findAllSalas();
-    res.status(200).json(salas);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+
+      const post = await createNewPost(newPost);
+
+      res.status(200).json(post);
+
+  } catch (erro) {
+
+      console.error("Erro ao criar post:", erro.message);
+
+      res.status(500).json({ "Erro": "Erro ao criar post" });
+
   }
-}
 
-// Obter sala por ID
-export async function obterSalaPorId(req, res) {
+}
+ 
+export async function atualizarNovoPost(req, res) {
+  const id = req.params.id;
+
   try {
-    const sala = await findSalaById(req.params.id);
-    if (sala) {
-      res.status(200).json(sala);
-    } else {
-      res.status(404).json({ message: 'Sala não encontrada' });
+    const { nomeSala, numeroComputadores, localizacao, possuiAcessibilidade, statusSala, softwaresInstalados } = req.body;
+
+    if (!nomeSala || !numeroComputadores || !localizacao || typeof possuiAcessibilidade === 'undefined' || !statusSala) {
+      return res.status(400).json({ erro: 'Todos os campos obrigatórios devem ser preenchidos.' });
     }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+
+    const post = {
+      nomeSala,
+      numeroComputadores,
+      localizacao,
+      possuiAcessibilidade,
+      statusSala,
+      softwaresInstalados
+    };
+
+    const postNovo = await atualizarPost(id, post); 
+
+    res.status(200).json(postNovo);
+
+  } catch (erro) {
+    console.error("Erro ao atualizar post:", erro.message);
+    res.status(500).json({ erro: "Erro ao atualizar o post" });
   }
 }
 
-// Atualizar uma sala
-export async function atualizarSala(req, res) {
-  try {
-    const salaAtualizada = await updateSala(req.params.id, req.body);
-    if (salaAtualizada) {
-      res.status(200).json(salaAtualizada);
-    } else {
-      res.status(404).json({ message: 'Sala não encontrada' });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-}
+ 
+export async function deletPost(req, res) {
 
-// Deletar uma sala
-export async function deletarSala(req, res) {
-  try {
-    const salaDeletada = await deleteSala(req.params.id);
-    if (salaDeletada) {
-      res.status(200).json({ message: 'Sala excluída com sucesso!' });
-    } else {
-      res.status(404).json({ message: 'Sala não encontrada' });
+  const id = req.params.id;
+ 
+    try {
+
+        const resultado = await deletarPost(id);
+ 
+        if (resultado.deletedCount === 0) {
+
+            return res.status(404).json({ "Erro": "Post não encontrado" });
+
+        }
+
+        res.status(200).json({ "Mensagem": "Post deletado com sucesso" });
+
+    } catch (erro) {
+
+        console.error("Erro ao deletar post:", erro.message);
+
+        res.status(500).json({ "Erro": "Erro ao deletar post" });
+
     }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+
 }
+ 

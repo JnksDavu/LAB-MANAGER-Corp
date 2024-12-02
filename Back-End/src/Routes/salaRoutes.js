@@ -1,23 +1,12 @@
 import express from 'express';
-import {
-  createSala,
-  getAllSalas,
-  getSalaById,
-  updateSala,
-  deleteSala,
-  getSoftwaresInstalados
-} from '../Controller/salaController.js';
-import { authenticateToken } from '../Controller/userController.js';
+import { listarPosts, atualizarNovoPost, criarPost, deletPost } from "../Controller/salaController.js";
 
 const routes = (app) => {
   app.use(express.json());
-
-  app.post('/salas/create', authenticateToken, createSala);
-  app.get('/salas', authenticateToken, getAllSalas);
-  app.get('/salas/:id', authenticateToken, getSalaById);
-  app.put('/salas/:id', authenticateToken, updateSala);
-  app.delete('/salas/:id', authenticateToken, deleteSala);
-  app.get('/salas/:id/softwares', authenticateToken, getSoftwaresInstalados);
+  app.get("/salas/get", listarPosts);
+  app.get("/salas/create", criarPost);
+  app.get("/salas/update", atualizarNovoPost);
+  app.get("/salas/delete", deletPost);
 };
 
 export default routes;
