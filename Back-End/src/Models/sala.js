@@ -1,49 +1,30 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import dotenv from 'dotenv';
-import conectarAoBanco from "../config/dbconfig.js";
+import run from "../config/dbconfig.js"; 
 
-dotenv.config();
-const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+const conexao = await run(process.env.STRING_CONEXAO);
 
-const sequelize = new Sequelize(process.env.DB_CONNECTION_STRING);
+export async function getAllPosts() {
+  const db = conexao.db("labmanager");
+  const colecao = db.collection("posts");
+  return colecao.find().toArray();
+}
 
-const Sala = sequelize.define('Sala', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true, // Gera automaticamente IDs incrementais
-    primaryKey: true,    // Define como chave primária
-  },
-  nomeSala: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  numeroComputadores: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  localizacao: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  possuiAcessibilidade: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
-  statusSala: {
-    type: DataTypes.ENUM('Disponível', 'Ocupado', 'Bloqueado', 'Manutenção'),
-    allowNull: false,
-    defaultValue: 'Disponível',
-  },
-  softwaresInstalados: {
-    type: DataTypes.ARRAY(DataTypes.STRING),  // Array de strings para lista de softwares
-    allowNull: true,  // Pode ser nulo se nenhuma lista for fornecida
-  }
-}, {
-  tableName: 'salas',  // Nome da tabela no banco de dados
-  timestamps: true, 
-  createdAt: 'createdat',  
-  updatedAt: 'updatedat',  
-});
+export async function createNewPost(newPost) {
+  const db = conexao.db("labmanager");
+  const colecao = db.collection("posts");
+  return colecao.insertOne(newPost);
+}
 
-export default Sala;
+export async function atualizarPost(id, newPost) {
+  const db = conexao.db("labmanager");
+  const colecao = db.collection("posts");
+  const objectId = ObjectId.createFromHexString(id);
+  return colecao.updateOne({_id: new ObjectId(objectId)}, {$set: newPost});
+}
+
+export async function deletarPost(id) {
+  const db = conexao.db("labmanager");
+  const colecao = db.collection("posts");
+  const objectId = ObjectId.createFromHexString(id);
+
+  return colecao.deleteOne({ _id: new ObjectId(objectId) });
+}

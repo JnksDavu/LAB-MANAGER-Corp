@@ -24,7 +24,7 @@
 // });
 
 import express from "express";
-import routes from "./src/routes/exemploRoutes.js";
+import routes from "./src/routes/salaRoutes.js";
 
 const app = express();
 routes(app);
