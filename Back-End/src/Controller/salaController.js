@@ -1,4 +1,4 @@
-import { getAllPosts, createNewPost, atualizarPost, deletarPost } from "../models/sala.js";
+import { getAllPosts, createNewPost, atualizarPost, deletarPost } from "../Models/sala.js";
 
 export async function listarPosts(req, res) {
 
