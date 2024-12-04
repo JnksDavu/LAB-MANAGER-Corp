@@ -61,8 +61,11 @@ const SearchPage = () => {
               React.createElement(
                 'li',
                 { key: index, className: styles.resultItem },
-                React.createElement('h3', null, item.nome),
-                React.createElement('p', null, item.descricao)
+                React.createElement('h3', null, item.nome_da_sala),
+                React.createElement('p', null, `Softwares: ${item.lista_softwares.split(', ')}`),
+                React.createElement('p', null, `Status: ${item.status}`),
+                React.createElement('p', null, `Acessibilidade: ${item.tem_acessibilidade ? 'Sim' : 'Não'}`),
+                React.createElement('p', null, `Número de PCs: ${item.numero_de_pcs}`)
               )
             )
           )
@@ -72,7 +75,7 @@ const SearchPage = () => {
             'Nenhum resultado encontrado.'
           )
     )
-  );
+  );  
 };
 
 export default SearchPage;

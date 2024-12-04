@@ -84,18 +84,15 @@ export async function deletPost(req, res) {
 
 }
 
-export async function listarSalas(req, res) {
-  const { nome } = req.query;
-
+export const listarSalas = async (req, res) => {
   try {
-    // Montar o filtro se houver parâmetro
-    const filtro = nome ? { nome: { $regex: nome, $options: "i" } } : {};
-
-    const salas = await buscarSalas(filtro);
-
-    res.status(200).json(salas);
-  } catch (erro) {
-    console.error("Erro ao listar salas:", erro.message);
-    res.status(500).json({ erro: "Erro ao buscar salas" });
+    const filtro = req.query.nome ? { nome: { $regex: req.query.nome, $options: "i" } } : {}; // Se a query 'nome' for fornecida, aplica o filtro
+    const salas = await buscarSalas(filtro); // Usa a função buscarSalas para buscar as salas com o filtro
+    res.status(200).json(salas); // Retorna as salas encontradas
+  } catch (error) {
+    console.error("Erro ao listar salas:", error);
+    res.status(500).json({ mensagem: "Erro ao listar as salas. Tente novamente mais tarde." });
   }
-}
+};
+
+

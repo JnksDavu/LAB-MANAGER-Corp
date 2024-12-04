@@ -19,9 +19,9 @@ const LoginPage = () => {
         password,
       });
 
-      // Armazenar o token no LocalStorage
-      const token = response.data.token;
-      localStorage.setItem('authToken', token);
+      // Armazenar o token no LocalStorage (comentado)
+      // const token = response.data.token;
+      // localStorage.setItem('authToken', token);
 
       // Redirecionar para a página inicial
       router.push('/home');
