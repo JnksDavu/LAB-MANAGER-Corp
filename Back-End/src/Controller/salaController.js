@@ -1,4 +1,4 @@
-import { getAllPosts, createNewPost, atualizarPost, deletarPost } from "../Models/sala.js";
+import { getAllPosts, createNewPost, atualizarPost, deletarPost, buscarSalas } from "../Models/sala.js";
 
 export async function listarPosts(req, res) {
 
@@ -7,7 +7,7 @@ export async function listarPosts(req, res) {
   res.status(200).json(get);
 
 }
- 
+
 export async function criarPost(req, res) {
 
   const newPost = req.body;
@@ -83,4 +83,19 @@ export async function deletPost(req, res) {
     }
 
 }
- 
+
+export async function listarSalas(req, res) {
+  const { nome } = req.query;
+
+  try {
+    // Montar o filtro se houver parâmetro
+    const filtro = nome ? { nome: { $regex: nome, $options: "i" } } : {};
+
+    const salas = await buscarSalas(filtro);
+
+    res.status(200).json(salas);
+  } catch (erro) {
+    console.error("Erro ao listar salas:", erro.message);
+    res.status(500).json({ erro: "Erro ao buscar salas" });
+  }
+}

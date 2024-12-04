@@ -1,12 +1,14 @@
 import express from 'express';
-import { listarPosts, atualizarNovoPost, criarPost, deletPost } from "../Controller/salaController.js";
+import { listarPosts, atualizarNovoPost, criarPost, deletPost, listarSalas } from "../Controller/salaController.js";
 
 const routes = (app) => {
   app.use(express.json());
+
+  app.get("/salas", listarSalas);
   app.get("/salas/get", listarPosts);
-  app.get("/salas/create", criarPost);
-  app.get("/salas/update", atualizarNovoPost);
-  app.get("/salas/delete", deletPost);
+  app.post("/salas/create", criarPost);
+  app.put("/salas/update/:id", atualizarNovoPost);
+  app.delete("/salas/delete/:id", deletPost);
 };
 
 export default routes;
