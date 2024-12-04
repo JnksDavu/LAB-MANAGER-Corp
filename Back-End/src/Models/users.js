@@ -1,37 +1,3 @@
-// import { Sequelize, DataTypes } from 'sequelize';
-// import dotenv from 'dotenv';
-// import conectarAoBanco from "../config/dbconfig.js";
-
-// const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
-// dotenv.config();
-
-// const sequelize = new Sequelize(process.env.DB_CONNECTION_STRING);
-
-// const User = sequelize.define('User', {
-//   id: {
-//     type: DataTypes.STRING,
-//     autoIncrement: true, // Gera automaticamente IDs incrementais
-//     primaryKey: true,    // Define como chave primária
-//   },
-//   email: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//     unique: true,
-//   },
-//   password: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//   }
-// }, {
-//   tableName: 'usuarios',
-//   timestamps: true, 
-//   createdAt: 'createdat',  
-//   updatedAt: 'updatedat',  
-// });
-
-// export default User;
-
-
 import run from "../config/dbconfig.js"; 
 
 const conexao = await run(process.env.STRING_CONEXAO);
@@ -62,3 +28,11 @@ export async function deletarPost(id) {
 
   return colecao.deleteOne({ _id: new ObjectId(objectId) });
 }
+
+const user = await colecao.findOne({ username, password });
+
+  if (user) {
+    return { valid: true, user };
+  } else {
+    return { valid: false, error: "Usuário ou senha incorretos" };
+  }
