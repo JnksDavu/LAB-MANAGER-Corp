@@ -1,38 +1,54 @@
 import run from "../config/dbconfig.js"; 
+import { ObjectId } from "mongodb";
 
+// Estabelecendo a conexão com o banco de dados
 const conexao = await run(process.env.STRING_CONEXAO);
 
-export async function getAllPosts() {
+
+// Função para criar um novo User
+export async function createNewUser(newUser) {
   const db = conexao.db("labmanager");
-  const colecao = db.collection("posts");
-  return colecao.find().toArray();
+  const colecao = db.collection("user");
+  return colecao.insertOne(newUser);
 }
 
-export async function createNewPost(newPost) {
+// Função para atualizar um User
+export async function atualizarUser(id, newUser) {
   const db = conexao.db("labmanager");
-  const colecao = db.collection("posts");
-  return colecao.insertOne(newPost);
+  const colecao = db.collection("user");
+  const objectId = new ObjectId(id); // Correção aqui
+  return colecao.updateOne({ _id: objectId }, { $set: newUser });
 }
 
-export async function atualizarPost(id, newPost) {
+// Função para deletar um User
+export async function deletarUser(id) {
   const db = conexao.db("labmanager");
-  const colecao = db.collection("posts");
-  const objectId = ObjectId.createFromHexString(id);
-  return colecao.updateOne({_id: new ObjectId(objectId)}, {$set: newPost});
+  const colecao = db.collection("user");
+  const objectId = new ObjectId(id); // Correção aqui
+  return colecao.deleteOne({ _id: objectId });
 }
 
-export async function deletarPost(id) {
+// Função para autenticar um usuário com base no username e senha
+export async function autenticarUsuario(username, password) {
   const db = conexao.db("labmanager");
-  const colecao = db.collection("posts");
-  const objectId = ObjectId.createFromHexString(id);
+  const colecao = db.collection("user"); // Supondo que a coleção de usuários seja chamada 'usuarios'
 
-  return colecao.deleteOne({ _id: new ObjectId(objectId) });
-}
+  // Procurando um usuário com o nome de usuário e senha fornecidos
+  const user = await colecao.findOne({ username, password });
 
-const user = await colecao.findOne({ username, password });
-
+  // Se o usuário for encontrado, retorna as informações do usuário
   if (user) {
     return { valid: true, user };
   } else {
+    // Caso contrário, retorna uma mensagem de erro
     return { valid: false, error: "Usuário ou senha incorretos" };
   }
+}
+
+export async function getAllUsers() {
+  const db = conexao.db("labmanager");
+  const colecao = db.collection("user"); // Supondo que a coleção de usuários seja chamada 'usuarios'
+  
+  // Buscando todos os usuários e incluindo email e senha
+  return colecao.find({}, { projection: { email: 1, senha: 1 } }).toArray();
+}

@@ -1,14 +1,16 @@
 import express from 'express';
-import { listarPosts, atualizarNovoPost, criarPost, deletPost, loginUser, authenticateToken, authenticateTokenLogin, validarUsuario } from "../Controller/userController.js";
+import { listarUsers, atualizarNovoUser, criarUser, deletUser, loginUser, validarUsuario,listarUsuarios } from "../Controller/userController.js";
 
-const routes = (app) => {
+const routesUser = (app) => {
   app.use(express.json());
-  app.get("/user/get", listarPosts);
-  app.get("/user/create", criarPost);
-  app.get("/user/update", atualizarNovoPost);
-  app.get("/user/delete", deletPost);
-  app.get("/user/login", loginUser);
-  app.get("/user/validar", validarUsuario);
+  
+  // Definições das rotas de user
+  app.get("/user/get", listarUsuarios);  // Aqui a rota GET para /user/get
+  app.post("/user/create", criarUser);
+  app.put("/user/update/:id", atualizarNovoUser);
+  app.delete("/user/delete/:id", deletUser);
+  app.post("/user/login", loginUser);
+  app.post("/user/validar", validarUsuario);
 };
 
-export default routes;
+export default routesUser;

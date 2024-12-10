@@ -89,9 +89,9 @@ const LoginPage = () => {
 
           {/* Link para a página de registro */}
           <div className="text-center mt-4">
-            <p className="text-sm text-white">
+            <p className={styles.login_text}>
               Não tem uma conta?{' '}
-              <a href="/register" className="text-indigo-400 hover:text-indigo-300">
+              <a href="/register" className={styles.login_text_destaque}>
                 Crie uma agora.
               </a>
             </p>

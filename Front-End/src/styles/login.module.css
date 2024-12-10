@@ -34,6 +34,20 @@
   text-align: center; /* Centraliza o título do formulário */
 }
 
+.login_text{
+  font-size: 0.875rem; /* Tamanho do título do formulário */
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.login_text_destaque{
+  font-size: 0.875rem; /* Tamanho do título do formulário */
+  font-weight: bold;
+  color: #2d69ec;
+  margin-bottom: 1rem;
+}
+
 
 .label {
   display: block;
