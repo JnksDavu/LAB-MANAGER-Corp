@@ -1,6 +1,5 @@
 import { createNewUser, atualizarUser, deletarUser, getAllUsers } from "../Models/users.js";
 import jwt from 'jsonwebtoken';
-import { updateToken, getToken } from './tokenController.js';
 import { autenticarUsuario } from '../Models/users.js'; // Importando a função de autenticação
 
 const SECRET_KEY_LOGIN = 'secret'; // Para autenticação de login
@@ -185,5 +184,3 @@ export async function validarUsuario(req, res) {
     return res.status(500).json({ error: "Erro ao validar usuário." });
   }
 }
-
-
