@@ -4,7 +4,6 @@ import { ObjectId } from "mongodb";
 // Estabelecendo a conexão com o banco de dados
 const conexao = await run(process.env.STRING_CONEXAO);
 
-
 // Função para criar um novo User
 export async function createNewUser(newUser) {
   const db = conexao.db("labmanager");
@@ -29,15 +28,15 @@ export async function deletarUser(id) {
 }
 
 // Função para autenticar um usuário com base no username e senha
-export async function autenticarUsuario(username, password) {
+export async function autenticarUsuario(email, password) {
   const db = conexao.db("labmanager");
-  const colecao = db.collection("user"); // Supondo que a coleção de usuários seja chamada 'usuarios'
+  const colecao = db.collection("user"); 
 
-  // Procurando um usuário com o nome de usuário e senha fornecidos
-  const user = await colecao.findOne({ username, password });
+  // Procurando um usuário com o email fornecido
+  const user = await colecao.findOne({ email });
 
-  // Se o usuário for encontrado, retorna as informações do usuário
-  if (user) {
+  // Se o usuário for encontrado e a senha corresponder, retorna as informações do usuário
+  if (user && user.senha === password) {
     return { valid: true, user };
   } else {
     // Caso contrário, retorna uma mensagem de erro
@@ -47,8 +46,7 @@ export async function autenticarUsuario(username, password) {
 
 export async function getAllUsers() {
   const db = conexao.db("labmanager");
-  const colecao = db.collection("user"); // Supondo que a coleção de usuários seja chamada 'usuarios'
+  const colecao = db.collection("user"); 
   
-  // Buscando todos os usuários e incluindo email e senha
   return colecao.find({}, { projection: { email: 1, senha: 1 } }).toArray();
 }

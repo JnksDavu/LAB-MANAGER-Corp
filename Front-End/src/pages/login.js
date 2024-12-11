@@ -19,9 +19,9 @@ const LoginPage = () => {
         password,
       });
 
-      // Armazenar o token no LocalStorage (comentado)
-      // const token = response.data.token;
-      // localStorage.setItem('authToken', token);
+      // Armazenar o token no LocalStorage
+      const token = response.data.token;
+      localStorage.setItem('authToken', token);
 
       // Redirecionar para a página inicial
       router.push('/home');
@@ -37,7 +37,6 @@ const LoginPage = () => {
 
   return (
     <div className={`flex min-h-screen items-center justify-center bg-gray-900 ${styles.body}`}>
-      {/* Título acima do formulário */}
       <div className="text-center mb-6">
         <h1 className={styles.pageTitle}>Bem-vindo ao Lab Manager Corp!</h1>
       </div>
@@ -78,24 +77,12 @@ const LoginPage = () => {
 
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-          <div>
-            <button
-              type="submit"
-              className={`w-full p-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600 ${styles.button}`}
-            >
-              Entrar
-            </button>
-          </div>
-
-          {/* Link para a página de registro */}
-          <div className="text-center mt-4">
-            <p className={styles.login_text}>
-              Não tem uma conta?{' '}
-              <a href="/register" className={styles.login_text_destaque}>
-                Crie uma agora.
-              </a>
-            </p>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700"
+          >
+            Entrar
+          </button>
         </form>
       </div>
     </div>
