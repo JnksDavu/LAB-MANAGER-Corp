@@ -22,6 +22,7 @@ const LoginPage = () => {
       // Armazenar o token no LocalStorage
       const token = response.data.token;
       localStorage.setItem('authToken', token);
+      localStorage.setItem('email', email);
 
       // Redirecionar para a página inicial
       router.push('/search');

@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors"; // Importando o cors
-import routes from "./src/routes/salaRoutes.js";
+import routes from "./src/Routes/salaRoutes.js";
 import routesUser from "./src/routes/usersRoutes.js";
 
 const app = express();
