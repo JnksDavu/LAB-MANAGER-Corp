@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import styles from '../styles/register.module.css';
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const router = useRouter();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -39,6 +41,9 @@ export default function Register() {
         setPassword('');
         setConfirmPassword('');
       }
+
+      // Redirecionar para a página inicial
+      router.push('/login');
     } catch (err) {
       if (err.response?.status === 409) {
         setError('Email já cadastrado.');
@@ -49,7 +54,7 @@ export default function Register() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={`flex min-h-screen items-center justify-center bg-gray-900 ${styles.body}`}>
       <form onSubmit={handleRegister} className={styles.form}>
         <h2 className={styles.title}>Registrar</h2>
 
