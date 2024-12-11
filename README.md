@@ -33,14 +33,4 @@ Utilize as credenciais cadastradas para acessar o sistema.
 Após o login, você será direcionado para a tela principal, onde poderá:
 Pesquisar salas: Filtre as salas por nome (ex: "B002") ou visualize todas.
 Cadastrar novas salas: Adicione novas salas ao sistema.
-
-# LAB-MANAGER-Corp
-Sistema de Gerenciamento de tarefas
-
-Explicações:
-npm install: Instala as dependências necessárias para o projeto.
-npm run dev: Inicia o servidor de desenvolvimento em modo local.
-Observações:
-Terminais: Execute os comandos do Backend e Frontend em terminais separados.
-Navegador: Utilize qualquer navegador moderno (Chrome, Firefox, Edge, etc.).
  
