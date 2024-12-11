@@ -59,7 +59,6 @@ const SearchPage = () => {
 
   const handleSearch = () => {
     fetchSalas(query); // Realiza a busca com o termo fornecido
-    
   };
 
   const handleNewSala = () => {
@@ -98,6 +97,9 @@ const SearchPage = () => {
         <button onClick={handleSearch} className={styles.button}>
           Pesquisar
         </button>
+        <button onClick={handleNewSala} className={styles.button}>
+          Criar Sala
+        </button>
         {showNewSalaButton && (
         <button
           onClick={handleNewSala}
@@ -134,11 +136,11 @@ const SearchPage = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="modal-backdrop">
-          <div className={`flex min-h-screen items-center justify-center bg-gray-900 ${styles.bodyModal}`}>
-            <div className={`w-full max-w-sm p-8 bg-white rounded-lg shadow-lg ${styles.containerModal}`}>
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg transform transition-all">
               <h2 className={`${styles.title}`}>Nova Sala</h2>
 
-              <form className="space-y-6">
+              <form className="space-y-4">
                 {/* Nome da Sala */}
                 <div>
                   <label htmlFor="nomeSala" className={styles.label}>
@@ -198,7 +200,7 @@ const SearchPage = () => {
 
                 {/* Número de Computadores */}
                 <div>
-                  <label htmlFor="numComputadores" className={styles.label}>
+                  <label htmlFor="numComputadores" className={`${styles.label} flex justify-end space-x-3 mt-12`}>
                   Número de Computadore:
                   </label>
                   
@@ -208,16 +210,16 @@ const SearchPage = () => {
                     onChange={(e) =>
                       setNewSala({ ...newSala, numeroDeComputadores: e.target.value })
                     }
-                    className={`mt-2 w-full p-2 rounded-md focus:ring-2 focus:ring-indigo-600 ${styles.input}`}
+                    className={ `mt-2 w-full p-2 rounded-md focus:ring-2 focus:ring-indigo-600 ${styles.input}`}
                   />
                 </div>
 
                 {/* Botões */}
-                <div className="mt-8 flex justify-center space-x-2">
+                <div className="flex justify-end space-x-3 mt-12">
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className={`px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 ${styles.button}`}
+                    className={`border-raius = 30px px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 ${styles.button}`}
                   >
                     Cancelar
                   </button>
@@ -225,7 +227,7 @@ const SearchPage = () => {
                   <button
                     type="button"
                     onClick={handleSaveSala}
-                    className={`px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600 ${styles.button}`}
+                    className={`px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600 ${styles.button}`}
                   >
                     Salvar
                   </button>
