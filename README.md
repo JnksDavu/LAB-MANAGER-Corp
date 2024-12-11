@@ -2,17 +2,13 @@
 Sistema de Gerenciamento de tarefas
 
 
-Passo a passo iniciar:
+## Passo a passo iniciar:
 
-front-end 
+ 1 - Primeiramente Olá, para iniciar precisamos executar o npm install, após isso só para garantir npm install cors, para fazer a iniciarlização podemos dar um
 
-1 - npm install 
-2 - npm run dev
+ ´
+ cd FrontEnd 
+ npm run dev
+ ´
 
-back-end 
-
-1 - npm install
-2- npm run start
-
-
-![image](https://github.com/user-attachments/assets/fdf1c1cc-17f5-477f-b031-7caa938677ff)
+ cd FrontEnd seria para entrar no front end do projeto a parte visual, logo após executamos o npm run dev, que seria para rodar toda a parte visual
