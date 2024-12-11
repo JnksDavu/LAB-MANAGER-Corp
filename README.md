@@ -40,7 +40,7 @@ Cadastrar novas salas: Adicione novas salas ao sistema.
 ![Registro](https://github.com/user-attachments/assets/971fc632-f9a1-4297-82a1-5320675f1d51)
 ### Tela de Pesquisa
 ![Search](https://github.com/user-attachments/assets/7633d190-6441-4354-9906-cd36d5a31ede)
-### modal para adicionar nova sala
+### Modal Nova Sala
 ![ModalNovaSala](https://github.com/user-attachments/assets/47810671-155d-492f-93b6-e5c2f36db38d)
 
 
