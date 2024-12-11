@@ -24,7 +24,7 @@ const LoginPage = () => {
       localStorage.setItem('authToken', token);
 
       // Redirecionar para a página inicial
-      router.push('/home');
+      router.push('/search');
     } catch (err) {
       // Exibir mensagem de erro
       if (err.response && err.response.status === 401) {
@@ -79,10 +79,20 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700"
+            className={`w-full p-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600 ${styles.button}`}
+
           >
             Entrar
           </button>
+          {/* Link para a página de registro */}
+          <div className="text-center mt-4">
+            <p className="text-sm text-white">
+              Não tem uma conta?{' '}
+              <a href="/register" className="text-indigo-400 hover:text-indigo-300">
+                Crie uma agora.
+              </a>
+            </p>
+          </div>
         </form>
       </div>
     </div>
