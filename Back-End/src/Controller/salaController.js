@@ -11,6 +11,8 @@ export async function listarPosts(req, res) {
 export async function criarPost(req, res) {
 
   const newPost = req.body;
+  console.log("Novo teste");
+  console.log(newPost);
 
   try {
 

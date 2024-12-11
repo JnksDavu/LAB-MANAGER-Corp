@@ -3,6 +3,9 @@ import axios from 'axios';
 import styles from '../styles/search.module.css';
 
 const SearchPage = () => {
+  const [email, setUsername] = useState('');
+  const [showNewSalaButton, setShowNewSalaButton] = useState(false);
+
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +27,9 @@ const SearchPage = () => {
       const response = await axios.get('http://localhost:5000/salas', {
         params: { nome: queryParam.trim() || undefined }, // Envia undefined para buscar todas as salas
       });
+
       setResults(response.data); // Define os resultados obtidos
+      console.log(results);
     } catch (err) {
       setError('Erro ao buscar as salas. Tente novamente mais tarde.');
       console.error('Erro ao buscar:', err);
@@ -35,10 +40,26 @@ const SearchPage = () => {
 
   useEffect(() => {
     fetchSalas(); // Busca todas as salas inicialmente
+
+    const storedUserName = localStorage.getItem('email');
+    if (storedUserName) {
+      setUsername(storedUserName);  // Define o nome do usuário ao carregar a página
+    } 
+
+    if (storedUserName === 'admin@gmail.com') {
+      setShowNewSalaButton(true);
+    } else {
+      setShowNewSalaButton(false);
+    }
+
+    console.log('teste');
+    console.log(storedUserName);
+
   }, []);
 
   const handleSearch = () => {
     fetchSalas(query); // Realiza a busca com o termo fornecido
+    
   };
 
   const handleNewSala = () => {
@@ -47,6 +68,7 @@ const SearchPage = () => {
 
   const handleSaveSala = async () => {
     try {
+      console.log(newSala);
       await axios.post('http://localhost:5000/salas/create', newSala);
       fetchSalas(); // Atualiza a lista de salas após salvar
       setIsModalOpen(false); // Fecha o modal
@@ -76,12 +98,14 @@ const SearchPage = () => {
         <button onClick={handleSearch} className={styles.button}>
           Pesquisar
         </button>
+        {showNewSalaButton && (
         <button
           onClick={handleNewSala}
           className={`${styles.button} bg-green-500 hover:bg-green-600`}
         >
           Nova Sala
         </button>
+      )}
       </header>
 
       {/* Main */}
@@ -94,11 +118,11 @@ const SearchPage = () => {
           <ul className={`${styles.resultList}`}>
             {results.map((item, index) => (
               <li key={index} className={styles.resultItem}>
-                <h3>{item.nome_da_sala}</h3>
-                <p>Softwares: {String(item.lista_softwares).split(', ').join(', ')}</p>
+                <h3>{item.nome}</h3>
+                <p>Softwares: {String(item.softwares).split(', ').join(', ')}</p>
                 <p>Status: {item.status}</p>
-                <p>Acessibilidade: {item.tem_acessibilidade ? 'Sim' : 'Não'}</p>
-                <p>Número de PCs: {item.numero_de_pcs}</p>
+                <p>Acessibilidade: {item.acessibilidade ? 'Sim' : 'Não'}</p>
+                <p>Número de PCs: {item.numeroDeComputadores}</p>
               </li>
             ))}
           </ul>
@@ -110,8 +134,8 @@ const SearchPage = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="modal-backdrop">
-          <div className={`flex min-h-screen items-center justify-center bg-gray-900 ${styles.body}`}>
-            <div className="w-full max-w-sm p-8 bg-gray-800 rounded-lg shadow-lg">
+          <div className={`flex min-h-screen items-center justify-center bg-gray-900 ${styles.bodyModal}`}>
+            <div className={`w-full max-w-sm p-8 bg-white rounded-lg shadow-lg ${styles.containerModal}`}>
               <h2 className={`${styles.title}`}>Nova Sala</h2>
 
               <form className="space-y-6">
@@ -168,7 +192,7 @@ const SearchPage = () => {
                       }
                       className="mr-2"
                     />
-                    <span className="text-white">{newSala.acessibilidade ? 'Sim' : 'Não'}</span>
+                    <span className={styles.label}>{newSala.acessibilidade ? 'Sim' : 'Não'}</span>
                   </div>
                 </div>
 
@@ -189,7 +213,7 @@ const SearchPage = () => {
                 </div>
 
                 {/* Botões */}
-                <div className="flex justify-center space-x-2 mt-6">
+                <div className="mt-8 flex justify-center space-x-2">
                   <button
                     type="button"
                     onClick={handleCancel}
@@ -197,6 +221,7 @@ const SearchPage = () => {
                   >
                     Cancelar
                   </button>
+                  
                   <button
                     type="button"
                     onClick={handleSaveSala}
